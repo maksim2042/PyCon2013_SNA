@@ -149,11 +149,7 @@ def print_methods():
 
 def call(f):
     @wraps(f)
-    def decorated(self, *args, **kwargs):
-        if arg:
-            if not args:
-                raise Exception("Need at least one arg")
-            kwargs[arg] = args
+    def decorated(self, **kwargs):
         return self._call(f.__name__, **kwargs)
     return decorated
 
@@ -178,14 +174,29 @@ class API(object):
                 params.pop(k)
             elif isinstance(v, (list, tuple)):
                 params[k + '[]'] = params.pop(k)
-        result = self.session.get(urljoin(self.url, endpoint), params=params)
-        print 'called ' + result.url
+
+        url = urljoin(self.url, endpoint)
+        result = self.session.get(url, params=params)
+        print '# called ' + result.url
         try:
-            return json.loads(result.content)
+            result = json.loads(result.content)
         except:
             return None
 
-    @call
+        total_pages = result.pop('total_pages', 1)
+        if total_pages > 1:
+            for page in range(2, total_pages + 1):
+                print "# fetching page %s" % page
+                params['page'] = page
+                next_result = self.session.get(url, params=params)
+                next_result = json.loads(next_result.content)
+
+                # Append
+                for k, v in next_result.iteritems():
+                    if k in result:
+                        result[k].extend(v)
+
+
     def bill_roll_calls(self, *bill_ids):
         # =['51865', '51868']):
         return self._call('bill_roll_calls', bill_id=bill_ids)
@@ -194,7 +205,6 @@ class API(object):
     def bills(self, type='h', number='5749', congress='113'):
         pass
 
-    @call
     def bills_by_ident(self, *ident):
         # =['110-s1178', '110-s239']):
         return self._call('bills_by_ident', ident=ident)
