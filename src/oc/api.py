@@ -195,7 +195,7 @@ class API(object):
                 for k, v in next_result.iteritems():
                     if k in result:
                         result[k].extend(v)
-
+        return result
 
     def bill_roll_calls(self, *bill_ids):
         # =['51865', '51868']):
