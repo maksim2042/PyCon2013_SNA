@@ -1,8 +1,13 @@
+# Numpy & matplotlib are for the visuals
 numpy==1.7.0
 matplotlib==1.2.0
+
+# This is the library to network analysis
 networkx==1.7
 
+# These are specific to the code we have in this repo
 tweetstream==1.1.1
 simplejson==3.1.0
 requests==1.1.0
 python-dateutil==2.1
+biopython==1.61
