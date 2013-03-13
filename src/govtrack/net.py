@@ -17,6 +17,7 @@ def mkdict(obj, key='id'):
 
 
 def cosponsors():
+    'Return a graph of cosponsors'
     ret = nx.Graph()
 
     bills = mkdict(readobj('bills-113.json.gz'))
@@ -24,13 +25,13 @@ def cosponsors():
     cosponsorships = readobj('cosponsorship.json.gz')
 
     for bill in cosponsorships:
-        bill_id = bill['id']
+        bill_id = bill['bill']
         if bill_id not in bills:
             continue
 
-        author_id = bills[bill['id']]['sponsor']['id']
-        author = people['author_id']
-        cosponsor = people[bill['person']]
+        author_id = bills[bill_id]['sponsor']['id']
+        author = people[author_id]['name']
+        cosponsor = people[bill['person']]['name']
 
         ret.add_edge(cosponsor, author)
     return ret
