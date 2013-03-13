@@ -12,13 +12,8 @@ def call(f):
     return decorated
 
 
-def call_by_path(f):
-    @wraps(f)
-    def decorated(self, arg):
-        return self._call(f.__name__ + '/' + arg)
-    return decorated
-
 PAGE_SIZE = 600
+
 
 class API(object):
     url = 'http://www.govtrack.us/api/v2/'

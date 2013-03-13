@@ -33,5 +33,8 @@ def cosponsors():
         author = people[author_id]['name']
         cosponsor = people[bill['person']]['name']
 
-        ret.add_edge(cosponsor, author)
+        if ret.has_edge(cosponsor, author):
+            ret[cosponsor][author]['weight'] += 1
+        else:
+            ret.add_edge(cosponsor, author, weight=1)
     return ret
