@@ -33,8 +33,6 @@ class API(object):
         for k, v in params.iteritems():
             if not v:
                 params.pop(k)
-            elif isinstance(v, (list, tuple)):
-                params[k + '[]'] = params.pop(k)
 
         url = urljoin(self.url, endpoint)
         result = self.session.get(url, params=params)
@@ -42,6 +40,8 @@ class API(object):
         try:
             result = json.loads(result.content)
         except:
+            print 'FAIL'
+            print result.content
             return None
 
         meta = result.pop('meta')
@@ -59,7 +59,7 @@ class API(object):
         return result['objects']
 
     @call
-    def bill(self, type='h', number='5749', congress='113'):
+    def bill(self, congress='113'):
         pass
 
     @call
