@@ -59,7 +59,7 @@ class API(object):
         return result['objects']
 
     @call
-    def bill(self, type='h', number='5749', congress='113'):
+    def bill(self, congress='113'):
         pass
 
     @call
