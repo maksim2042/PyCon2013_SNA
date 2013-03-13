@@ -16,7 +16,7 @@ Read more here: http://matplotlib.org/users/installing.html#build-requirements
 After you have the libraries needed, continue with installing the 
 requirements.txt.
 
-pip install -r requirements.txt
+$ pip install -r requirements.txt
 
 
 To run ipython notebooks
